@@ -2,6 +2,7 @@
 
 ```
 git clone git@github.com:serebro/p81-blocks.git
+cd p81-blocks
 ```
 
 ### Running
@@ -9,7 +10,7 @@ git clone git@github.com:serebro/p81-blocks.git
 docker-compose up -d
 ```
 
-### Display results
+### Displaying results
 ```
 docker logs app
 ```
