@@ -1,0 +1,8 @@
+.gitignore
+.idea/.gitignore
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/p81.iml
+.idea/vcs.xml
+node_modules/

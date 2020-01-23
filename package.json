@@ -1,0 +1,26 @@
+{
+  "name": "blocks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "node $NODE_DEBUG_OPTION migrate.js",
+    "start": "node $NODE_DEBUG_OPTION index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serebro/p81-blocks.git"
+  },
+  "author": "Sergey Ilin",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "3.5.2"
+  },
+  "config": {
+    "mongodb": {
+      "url": "mongodb://mongodb:27017"
+    },
+    "dbName": "p81-blocks"
+  }
+}
