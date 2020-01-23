@@ -65,19 +65,24 @@ client.connect().then(_ => {
     };
 
     const rotateTable = records => {
-        const results = [[], []];
+        const results = {};
         records.forEach(record => {
-            results[0].push(record.type);
-            results[1].push(record.status);
+            results[record.type] = record.status;
         });
 
-        return results;
+        return [results];
+    };
+
+    const store = records => {
+        db.collection('blockActualWorkload').insertMany(records);
+
+        return records;
     };
 
     const output = records => {
-        console.log(JSON.stringify(records[0]));
-        console.log(JSON.stringify(records[1]));
-        process.exit(0);
+        console.log(JSON.stringify(records));
+
+        return records;
     };
 
     db.collection('blockAsset')
@@ -85,5 +90,7 @@ client.connect().then(_ => {
         .toArray()
         .then(preparation)
         .then(rotateTable)
-        .then(output);
+        .then(output)
+        .then(store)
+        .then(_ => {process.exit(0)});
 });

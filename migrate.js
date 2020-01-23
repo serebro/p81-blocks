@@ -45,9 +45,12 @@ client.connect(function (err) {
         ]);
     });
 
+    const blockActualWorkloadPromise = db.collection('blockActualWorkload').drop().catch(_ => {});
+
     Promise.all([
         blockAssetPromise,
         blockRepositoryPromise,
+        blockActualWorkloadPromise,
     ]).then(_ => {
         client.close();
         process.exit(0);

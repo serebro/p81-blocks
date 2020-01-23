@@ -17,6 +17,5 @@ docker logs app
 
 Example of "Block Actual Workload":
 ```
-["triangle A1","triangle A2","triangle A3","square B1","circle C1","circle","rhomb E1"]
-["USED","USED","UNUSED","USED","USED",null,"USED"]
+[{"triangle A1":"USED","triangle A2":"USED","triangle A3":"UNUSED","square B1":"USED","circle C1":"USED","circle":null,"rhomb E1":"USED"}]
 ```
