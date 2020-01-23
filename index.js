@@ -49,7 +49,7 @@ client.connect().then(_ => {
             record.Block_Refs.forEach(Block_Ref => {
                 results.push({
                     type: `${Block_Ref.Block_Type} ${Block_Ref.Block_Ref_ID}`,
-                    status: requestQuantity-- ? 'USED' : 'UNUSED'
+                    status: requestQuantity-- > 0 ? 'USED' : 'UNUSED'
                 });
             });
 
