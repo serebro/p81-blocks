@@ -41,6 +41,8 @@ client.connect().then(_ => {
         }
     ];
 
+    // We do not have memory requirement,
+    // than assume that all data will not be out of 1G NodeJS memory limit and 16Mb mongo document limit
     const preparation = records => {
         const results = [];
         records.forEach(record => {
@@ -48,16 +50,21 @@ client.connect().then(_ => {
 
             record.Block_Refs.forEach(Block_Ref => {
                 results.push({
-                    type: `${Block_Ref.Block_Type} ${Block_Ref.Block_Ref_ID}`,
+                    type: Block_Ref.Block_Type,
+                    ref: Block_Ref.Block_Ref_ID,
                     status: requestQuantity-- > 0 ? 'USED' : 'UNUSED'
                 });
             });
 
-            if (record.Block_Refs.length < blockForUseRequestIndex[record.Block_ID]) {
-                results.push({
-                    type: record.Block_Type,
-                    status: null,
-                });
+            let restOfBlocks = blockForUseRequestIndex[record.Block_ID] - record.Block_Refs.length;
+            if (restOfBlocks > 0) {
+                for (; restOfBlocks > 0; restOfBlocks--) {
+                    results.push({
+                        type: record.Block_Type,
+                        ref: null,
+                        status: null,
+                    });
+                }
             }
         });
 
@@ -65,16 +72,14 @@ client.connect().then(_ => {
     };
 
     const rotateTable = records => {
-        const results = {};
-        records.forEach(record => {
-            results[record.type] = record.status;
+        return records.map(record => {
+            const name = [record.type, record.ref].filter(el => !!el).join(' ');
+            return [name, record.status];
         });
-
-        return [results];
     };
 
     const store = records => {
-        db.collection('blockActualWorkload').insertMany(records);
+        db.collection('blockActualWorkload').insertOne({workload: records});
 
         return records;
     };
